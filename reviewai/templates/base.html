@@ -14,6 +14,13 @@
     <!-- Custom Style -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     {% block extra_css %}{% endblock %}
+    <!-- Script to load theme before content renders -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
 </head>
 <body>
 
@@ -85,7 +92,12 @@
                 <h4 class="mb-0 fw-bold">{% block page_title %}Dashboard{% endblock %}</h4>
             </div>
             
-            <div class="d-flex align-items-center gap-4">
+            <div class="d-flex align-items-center gap-3">
+                <!-- Theme Toggle -->
+                <button class="btn border-0 text-secondary p-2 me-1" id="theme-toggle-btn" type="button" aria-label="Toggle Theme">
+                    <i class="fa-regular fa-moon fs-5" id="theme-toggle-icon"></i>
+                </button>
+                
                 <!-- Notifications -->
                 <div class="dropdown">
                     <button class="notification-bell-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="notif-dropdown-btn">
@@ -222,6 +234,31 @@
             requestAnimationFrame(animate);
         });
     });
+
+    // Theme Toggle Handler
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const themeToggleIcon = document.getElementById('theme-toggle-icon');
+
+    if (themeToggleBtn && themeToggleIcon) {
+        const updateThemeIcon = (theme) => {
+            if (theme === 'dark') {
+                themeToggleIcon.className = 'fa-regular fa-sun fs-5 text-warning';
+            } else {
+                themeToggleIcon.className = 'fa-regular fa-moon fs-5';
+            }
+        };
+
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updateThemeIcon(currentTheme);
+
+        themeToggleBtn.addEventListener('click', () => {
+            const theme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = theme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            updateThemeIcon(newTheme);
+        });
+    }
 </script>
 {% block extra_js %}{% endblock %}
 </body>

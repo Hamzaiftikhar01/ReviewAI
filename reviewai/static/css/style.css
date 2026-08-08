@@ -20,6 +20,13 @@
     --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    
+    /* Theme Variables */
+    --sidebar-background: #FFFFFF;
+    --sidebar-text: #4B5563;
+    --header-background: #FFFFFF;
+    --input-background: #FFFFFF;
+    --input-border: rgba(229, 231, 235, 0.8);
 }
 
 body {
@@ -119,8 +126,8 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 
 .sidebar {
     width: var(--sidebar-width);
-    background-color: #FFFFFF;
-    color: var(--text-secondary);
+    background-color: var(--sidebar-background);
+    color: var(--sidebar-text);
     display: flex;
     flex-direction: column;
     height: 100vh;
@@ -129,7 +136,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     left: 0;
     z-index: 100;
     border-right: 1px solid var(--border-color);
-    transition: transform var(--transition-speed) ease-in-out;
+    transition: transform var(--transition-speed) ease-in-out, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 .sidebar-header {
@@ -179,14 +186,14 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    color: #4B5563;
+    color: var(--sidebar-text);
     text-decoration: none;
     padding: 0.75rem 1rem;
     border-radius: 0.375rem;
     font-weight: 500;
     font-size: 0.95rem;
     margin-bottom: 0.25rem;
-    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.2s ease, background-color 0.2s ease;
 }
 
 .sidebar-link i {
@@ -222,7 +229,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .app-header {
-    background-color: #ffffff;
+    background-color: var(--header-background);
     height: 70px;
     border-bottom: 1px solid var(--border-color);
     padding: 0 2rem;
@@ -232,6 +239,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     position: sticky;
     top: 0;
     z-index: 90;
+    transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
 }
 
 @keyframes fadeIn {
@@ -550,3 +558,125 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
         display: none !important;
     }
 }
+
+/* ==========================================================================
+   Dark Mode Overrides
+   ========================================================================== */
+[data-theme="dark"] {
+    --primary-color: #C084FC;       /* Brighter purple in dark mode */
+    --primary-light: #A78BFA;
+    --accent-color: #A78BFA;
+    --accent-purple: #F43F5E;       /* Pink/Magenta Accent */
+    --background-color: #090D16;    /* Deep space dark background */
+    --card-background: #111827;     /* Slate-900 Card */
+    --text-primary: #F9FAFB;        /* Bright Text */
+    --text-secondary: #9CA3AF;      /* Muted Text */
+    --border-color: rgba(75, 85, 99, 0.4);
+    --sidebar-background: #111827;  /* Match cards for sleek dark side */
+    --sidebar-text: #9CA3AF;
+    --header-background: #111827;
+    --input-background: #1F2937;
+    --input-border: #4B5563;
+}
+
+[data-theme="dark"] body {
+    color: var(--text-primary);
+    background-color: var(--background-color);
+}
+
+/* Forms styling for Dark Mode compatibility */
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus {
+    background-color: var(--input-background) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--input-border) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: #6B7280;
+}
+
+/* Light/Dark mode transitions */
+body, .sidebar, .app-header, .card-saas, .review-item-row, .app-body {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Glassmorphism adjustment for Dark Mode */
+[data-theme="dark"] .card-saas {
+    background: rgba(17, 24, 39, 0.7);
+    border: 1px solid rgba(75, 85, 99, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+}
+
+[data-theme="dark"] .card-saas:hover {
+    border-color: rgba(167, 139, 250, 0.3);
+    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .review-item-row {
+    background-color: #111827;
+    border-color: rgba(75, 85, 99, 0.3);
+}
+
+[data-theme="dark"] .review-item-row:hover {
+    border-color: rgba(167, 139, 250, 0.3);
+}
+
+[data-theme="dark"] .table-preview th {
+    background-color: #1F2937;
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .table-preview td {
+    color: var(--text-secondary);
+}
+
+[data-theme="dark"] .list-group-item {
+    background-color: #111827 !important;
+    color: var(--text-primary);
+    border-color: rgba(75, 85, 99, 0.3);
+}
+
+[data-theme="dark"] .list-group-item.bg-light {
+    background-color: #1F2937 !important;
+}
+
+[data-theme="dark"] .dropdown-menu {
+    background-color: #111827 !important;
+    border: 1px solid rgba(75, 85, 99, 0.4) !important;
+}
+
+[data-theme="dark"] .dropdown-menu .dropdown-item {
+    color: var(--text-primary);
+}
+
+[data-theme="dark"] .dropdown-menu .dropdown-item:hover {
+    background-color: #1F2937;
+}
+
+[data-theme="dark"] .dropdown-menu .bg-light {
+    background-color: #1F2937 !important;
+}
+
+[data-theme="dark"] .dropdown-menu .text-dark {
+    color: var(--text-primary) !important;
+}
+
+/* Modals dark mode overrides */
+[data-theme="dark"] .modal-content {
+    background-color: #111827;
+    color: var(--text-primary);
+    border: 1px solid rgba(75, 85, 99, 0.4);
+}
+
+[data-theme="dark"] .modal-header,
+[data-theme="dark"] .modal-footer {
+    border-color: rgba(75, 85, 99, 0.3);
+}
+
+[data-theme="dark"] .btn-close {
+    filter: invert(1) grayscale(1) brightness(2);
+}
+
