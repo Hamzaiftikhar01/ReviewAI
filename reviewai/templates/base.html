@@ -14,6 +14,18 @@
     <!-- Custom Style -->
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
     {% block extra_css %}{% endblock %}
+    <!-- Script to load theme before content renders -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'system') {
+                const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.setAttribute('data-theme', systemDark ? 'dark' : 'light');
+            } else {
+                document.documentElement.setAttribute('data-theme', savedTheme);
+            }
+        })();
+    </script>
 </head>
 <body>
 
@@ -86,6 +98,30 @@
             </div>
             
             <div class="d-flex align-items-center gap-3">
+                <!-- Theme Toggle Dropdown -->
+                <div class="dropdown">
+                    <button class="btn border-0 text-secondary p-2" type="button" id="theme-menu-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fa-regular fa-moon fs-5" id="current-theme-icon"></i>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end py-1 shadow border-0" aria-labelledby="theme-menu-btn" style="min-width: 120px;">
+                        <li>
+                            <button class="dropdown-item py-1.5 d-flex align-items-center gap-2" onclick="setThemePreference('light')">
+                                <i class="fa-regular fa-sun"></i> Light
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item py-1.5 d-flex align-items-center gap-2" onclick="setThemePreference('dark')">
+                                <i class="fa-regular fa-moon"></i> Dark
+                            </button>
+                        </li>
+                        <li>
+                            <button class="dropdown-item py-1.5 d-flex align-items-center gap-2" onclick="setThemePreference('system')">
+                                <i class="fa-solid fa-desktop"></i> System
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
                 <!-- Notifications -->
                 <div class="dropdown">
                     <button class="notification-bell-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false" id="notif-dropdown-btn">
@@ -220,6 +256,47 @@
                 }
             };
             requestAnimationFrame(animate);
+        });
+    });
+
+    // Theme Management Scripts
+    function applyTheme(theme) {
+        if (theme === 'system') {
+            const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.documentElement.setAttribute('data-theme', systemDark ? 'dark' : 'light');
+        } else {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+        updateThemeIcon(theme);
+    }
+
+    function updateThemeIcon(theme) {
+        const icon = document.getElementById('current-theme-icon');
+        if (!icon) return;
+        if (theme === 'dark') {
+            icon.className = 'fa-regular fa-moon fs-5';
+        } else if (theme === 'light') {
+            icon.className = 'fa-regular fa-sun fs-5 text-warning';
+        } else {
+            icon.className = 'fa-solid fa-desktop fs-5 text-secondary';
+        }
+    }
+
+    function setThemePreference(theme) {
+        localStorage.setItem('theme', theme);
+        applyTheme(theme);
+    }
+
+    // Set initial icon and listeners on DOMContentLoaded
+    document.addEventListener('DOMContentLoaded', () => {
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        updateThemeIcon(savedTheme);
+        
+        // Listen to system changes if system theme is selected
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+            if (localStorage.getItem('theme') === 'system') {
+                document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
+            }
         });
     });
 </script>
