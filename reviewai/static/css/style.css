@@ -72,14 +72,14 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .glow-orb-1 {
-    background-color: #BE185D; /* Magenta glow */
+    background-color: #00FF87; /* Neon Green glow */
     top: 10%;
     left: -10%;
     animation: floatOrb1 18s ease-in-out infinite alternate;
 }
 
 .glow-orb-2 {
-    background-color: #06B6D4; /* Cyan/Teal glow */
+    background-color: #00D2FF; /* Neon Blue glow */
     bottom: 10%;
     right: -10%;
     animation: floatOrb2 22s ease-in-out infinite alternate;
@@ -619,25 +619,25 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
    Dark Mode Overrides
    ========================================================================== */
 [data-theme="dark"] {
-    --primary-color: #00D2FF;       /* Bright Cyan/Neon Blue */
-    --primary-light: #38BDF8;       /* Neon secondary */
-    --accent-color: #00D2FF;        /* Cyan Accent */
-    --accent-purple: #EC4899;       /* Pink/Magenta Accent */
+    --primary-color: #00D2FF;       /* Bright Neon Blue */
+    --primary-light: #00FF87;       /* Bright Neon Green */
+    --accent-color: #00D2FF;        /* Neon Blue Accent */
+    --accent-purple: #00FF87;       /* Neon Green Accent */
     --background-color: #0B0E14;    /* Deep dark navy/charcoal */
     --card-background: #161B26;     /* Slate dark blue container */
     --text-primary: #F9FAFB;        /* High-contrast text */
     --text-secondary: #9CA3AF;      /* Muted gray text */
-    --border-color: rgba(0, 210, 255, 0.15); /* Glowing cyan border tint */
+    --border-color: rgba(0, 210, 255, 0.15); /* Glowing blue border tint */
     --sidebar-background: #0B0E14;  /* Deep dark navy sidebar */
     --sidebar-text: #9CA3AF;
     --header-background: #161B26;
     --input-background: #161B26;
     --input-border: rgba(0, 210, 255, 0.25);
     
-    /* Glowing Neon Shadows */
+    /* Glowing Neon Shadows (Blue + Green mix) */
     --shadow-sm: 0 1px 3px rgba(0, 210, 255, 0.05);
-    --shadow-md: 0 10px 20px -8px rgba(0, 210, 255, 0.12), 0 4px 10px -3px rgba(0, 210, 255, 0.05);
-    --shadow-lg: 0 20px 25px -5px rgba(0, 210, 255, 0.15), 0 10px 10px -5px rgba(0, 210, 255, 0.05);
+    --shadow-md: 0 10px 20px -8px rgba(0, 210, 255, 0.1), 0 4px 10px -3px rgba(0, 255, 135, 0.04);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 210, 255, 0.12), 0 10px 10px -5px rgba(0, 255, 135, 0.05);
 }
 
 /* Glowing shadows and colors for active items and buttons in dark neon mode */
@@ -648,7 +648,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 [data-theme="dark"] .btn-ai {
-    background: linear-gradient(135deg, #00D2FF, #EC4899) !important;
+    background: linear-gradient(135deg, #00D2FF, #00FF87) !important;
     color: #0B0E14 !important; /* Dark text for readability on neon gradient */
     box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
 }
