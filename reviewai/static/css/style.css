@@ -2,9 +2,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --primary-color: #5B21B6;       /* Premium Dark Purple */
-    --primary-light: #7C3AED;       /* Vibrant Purple */
-    --accent-color: #6D28D9;        /* Indigo-Purple */
+    --primary-color: #6E3AFF;       /* HEX: #6E3AFF - Vibrant Purple */
+    --primary-light: #8B5CF6;       /* Vibrant violet secondary */
+    --accent-color: #6E3AFF;        /* Purple Accent */
     --accent-purple: #BE185D;       /* Pink/Magenta Strategic Accent */
     --background-color: #F8F7FC;    /* Light Purple-Gray Background */
     --card-background: #ffffff;     /* White Cards */
@@ -48,7 +48,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .auth-sidebar {
-    background: linear-gradient(-45deg, #3B0764, #5B21B6, #6D28D9, #4C1D95);
+    background: linear-gradient(-45deg, #3B0764, #6E3AFF, #8B5CF6, #1E1B4B);
     background-size: 400% 400%;
     animation: gradientBG 15s ease infinite;
     color: #ffffff;
