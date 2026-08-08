@@ -132,9 +132,22 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .auth-branding h2 {
-    color: #ffffff !important;
     font-size: 2.25rem;
     font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-sidebar .brand-logo {
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-sidebar .brand-logo i {
+    color: var(--accent-primary) !important;
 }
 
 .auth-form-container {
