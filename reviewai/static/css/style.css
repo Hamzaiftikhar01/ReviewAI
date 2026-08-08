@@ -619,29 +619,44 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
    Dark Mode Overrides
    ========================================================================== */
 [data-theme="dark"] {
-    --primary-color: #703EFA;       /* Rich vibrant purple for dark mode instead of faded lavender */
-    --primary-light: #8B5CF6;
-    --accent-color: #703EFA;
-    --accent-purple: #F43F5E;       /* Pink/Magenta Accent */
-    --background-color: #090D16;    /* Deep space dark background */
-    --card-background: #111827;     /* Slate-900 Card */
-    --text-primary: #F9FAFB;        /* Bright Text */
-    --text-secondary: #9CA3AF;      /* Muted Text */
-    --border-color: rgba(75, 85, 99, 0.4);
-    --sidebar-background: #0F0926;  /* Maintain dark sidebar */
-    --sidebar-text: #A5A2B8;
-    --header-background: #111827;
-    --input-background: #1F2937;
-    --input-border: #4B5563;
+    --primary-color: #00D2FF;       /* Bright Cyan/Neon Blue */
+    --primary-light: #38BDF8;       /* Neon secondary */
+    --accent-color: #00D2FF;        /* Cyan Accent */
+    --accent-purple: #EC4899;       /* Pink/Magenta Accent */
+    --background-color: #0B0E14;    /* Deep dark navy/charcoal */
+    --card-background: #161B26;     /* Slate dark blue container */
+    --text-primary: #F9FAFB;        /* High-contrast text */
+    --text-secondary: #9CA3AF;      /* Muted gray text */
+    --border-color: rgba(0, 210, 255, 0.15); /* Glowing cyan border tint */
+    --sidebar-background: #0B0E14;  /* Deep dark navy sidebar */
+    --sidebar-text: #9CA3AF;
+    --header-background: #161B26;
+    --input-background: #161B26;
+    --input-border: rgba(0, 210, 255, 0.25);
+    
+    /* Glowing Neon Shadows */
+    --shadow-sm: 0 1px 3px rgba(0, 210, 255, 0.05);
+    --shadow-md: 0 10px 20px -8px rgba(0, 210, 255, 0.12), 0 4px 10px -3px rgba(0, 210, 255, 0.05);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 210, 255, 0.15), 0 10px 10px -5px rgba(0, 210, 255, 0.05);
 }
 
-/* Subtle glowing shadows for active items and buttons in dark mode */
+/* Glowing shadows and colors for active items and buttons in dark neon mode */
 [data-theme="dark"] .sidebar-link.active {
-    box-shadow: 0 0 12px rgba(110, 58, 255, 0.25);
+    background-color: var(--primary-color) !important;
+    color: #0B0E14 !important; /* Dark text for high-contrast on neon cyan active state */
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
 }
 
 [data-theme="dark"] .btn-ai {
-    box-shadow: 0 0 16px rgba(110, 58, 255, 0.3);
+    background: linear-gradient(135deg, #00D2FF, #EC4899) !important;
+    color: #0B0E14 !important; /* Dark text for readability on neon gradient */
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+}
+
+[data-theme="dark"] .btn-ai:hover {
+    opacity: 0.95;
+    transform: translateY(-2px);
+    box-shadow: 0 0 24px rgba(0, 210, 255, 0.45);
 }
 
 [data-theme="dark"] body {
