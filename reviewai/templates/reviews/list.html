@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+
+{% block title %}Reviews - ReviewAI{% endblock %}
+{% block page_title %}Reviews Management{% endblock %}
+
+{% block content %}
+<!-- Control Panel -->
+<div class="card-saas mb-4">
+    <form method="get" class="row g-2">
+        <!-- Search -->
+        <div class="col-lg-3 col-md-6">
+            <div class="input-group">
+                <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" name="search" class="form-control border-start-0 ps-0" placeholder="Search customer or text..." value="{{ search_query }}">
+            </div>
+        </div>
+        
+        <!-- Sentiment Filter -->
+        <div class="col-lg-2 col-md-6">
+            <select name="sentiment" class="form-select">
+                <option value="">All Sentiments</option>
+                <option value="Positive" {% if sentiment_filter == 'Positive' %}selected{% endif %}>Positive</option>
+                <option value="Negative" {% if sentiment_filter == 'Negative' %}selected{% endif %}>Negative</option>
+                <option value="Neutral" {% if sentiment_filter == 'Neutral' %}selected{% endif %}>Neutral</option>
+                <option value="Pending" {% if sentiment_filter == 'Pending' %}selected{% endif %}>Pending</option>
+            </select>
+        </div>
+        
+        <!-- Rating Filter -->
+        <div class="col-lg-2 col-md-4">
+            <select name="rating" class="form-select">
+                <option value="">All Ratings</option>
+                {% for i in "54321"|make_list %}
+                    <option value="{{ i }}" {% if rating_filter == i %}selected{% endif %}>{{ i }} Stars</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <!-- Source Filter -->
+        <div class="col-lg-2 col-md-4">
+            <select name="source" class="form-select">
+                <option value="">All Sources</option>
+                <option value="Manual" {% if source_filter == 'Manual' %}selected{% endif %}>Manual</option>
+                <option value="CSV Import" {% if source_filter == 'CSV Import' %}selected{% endif %}>CSV Import</option>
+                <option value="Google" {% if source_filter == 'Google' %}selected{% endif %}>Google</option>
+                <option value="Other" {% if source_filter == 'Other' %}selected{% endif %}>Other</option>
+            </select>
+        </div>
+
+        <!-- Date Range Filter -->
+        <div class="col-lg-2 col-md-4">
+            <select name="date_range" class="form-select">
+                <option value="">All Time</option>
+                <option value="7d" {% if date_filter == '7d' %}selected{% endif %}>Last 7 Days</option>
+                <option value="30d" {% if date_filter == '30d' %}selected{% endif %}>Last 30 Days</option>
+                <option value="90d" {% if date_filter == '90d' %}selected{% endif %}>Last 90 Days</option>
+            </select>
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="col-lg-1 col-md-12 d-grid">
+            <button type="submit" class="btn btn-primary fw-semibold" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+                Filter
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- Header Info & Actions -->
+<div class="d-flex align-items-center justify-content-between mb-3 px-1">
+    <div class="text-muted small">
+        Showing <strong>{{ page_obj.start_index }}-{{ page_obj.end_index }}</strong> of <strong>{{ total_reviews }}</strong> reviews
+    </div>
+    
+    <div class="d-flex gap-2">
+        <a href="{% url 'csv_upload' %}" class="btn btn-outline-primary btn-sm fw-semibold">
+            <i class="fa-solid fa-file-csv me-1"></i> Import CSV
+        </a>
+        <a href="{% url 'review_create' %}" class="btn btn-primary btn-sm fw-semibold" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+            <i class="fa-solid fa-plus me-1"></i> Add Review
+        </a>
+    </div>
+</div>
+
+<!-- Reviews List -->
+<div class="reviews-list-container mb-4">
+    {% if page_obj %}
+        {% for review in page_obj %}
+            <div class="review-item-row">
+                <div class="review-item-main">
+                    <div class="review-item-header">
+                        <span class="review-item-customer">{{ review.customer_name }}</span>
+                        <span class="star-rating">
+                            {% if review.rating == 5 %}⭐⭐⭐⭐⭐
+                            {% elif review.rating == 4 %}⭐⭐⭐⭐
+                            {% elif review.rating == 3 %}⭐⭐⭐
+                            {% elif review.rating == 2 %}⭐⭐
+                            {% else %}⭐
+                            {% endif %}
+                        </span>
+                        <span class="badge-saas {% if review.sentiment == 'Positive' %}badge-positive{% elif review.sentiment == 'Negative' %}badge-negative{% elif review.sentiment == 'Neutral' %}badge-neutral{% else %}badge-pending{% endif %}">
+                            {{ review.sentiment }}
+                        </span>
+                    </div>
+                    <p class="review-item-text">{{ review.review_text }}</p>
+                    <div class="review-item-meta">
+                        <span><i class="fa-solid fa-circle-info me-1"></i>Source: {{ review.source }}</span>
+                        <span><i class="fa-regular fa-clock me-1"></i>{{ review.created_at|date:"M d, Y" }}</span>
+                        <span>
+                            {% if review.status == 'Analyzed' %}
+                                <span class="text-success fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Analyzed by AI</span>
+                            {% else %}
+                                <span class="text-muted"><i class="fa-solid fa-circle-question me-1"></i>Unanalyzed</span>
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="review-item-actions">
+                    <a href="{% url 'review_detail' review.id %}" class="btn btn-outline-secondary btn-sm px-3 fw-semibold">
+                        View Detail
+                    </a>
+                    
+                    {% if review.status != 'Analyzed' %}
+                        <form action="{% url 'review_analyze_ai' review.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-ai btn-sm px-3 fw-semibold">
+                                Analyze
+                            </button>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <div class="p-5 text-center text-muted card-saas">
+            <i class="fa-regular fa-comments fs-1 mb-3"></i>
+            <h5>No reviews found</h5>
+            <p class="small">Try adjusting your filters or search keywords.</p>
+        </div>
+    {% endif %}
+</div>
+
+<!-- Pagination -->
+{% if page_obj.has_other_pages %}
+    <nav class="d-flex justify-content-center">
+        <ul class="pagination shadow-sm">
+            {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ page_obj.previous_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sentiment_filter %}&sentiment={{ sentiment_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if source_filter %}&source={{ source_filter }}{% endif %}{% if date_filter %}&date_range={{ date_filter }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+            
+            {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                    <li class="page-item active"><span class="page-link border-0 text-white" style="background-color: var(--accent-color); font-weight: bold;">{{ num }}</span></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                    <li class="page-item"><a class="page-link text-dark" href="?page={{ num }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sentiment_filter %}&sentiment={{ sentiment_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if source_filter %}&source={{ source_filter }}{% endif %}{% if date_filter %}&date_range={{ date_filter }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+            {% endfor %}
+            
+            {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link text-dark" href="?page={{ page_obj.next_page_number }}{% if search_query %}&search={{ search_query }}{% endif %}{% if sentiment_filter %}&sentiment={{ sentiment_filter }}{% endif %}{% if rating_filter %}&rating={{ rating_filter }}{% endif %}{% if source_filter %}&source={{ source_filter }}{% endif %}{% if date_filter %}&date_range={{ date_filter }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}
+{% endblock %}

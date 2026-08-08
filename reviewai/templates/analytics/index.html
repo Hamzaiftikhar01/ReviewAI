@@ -1,0 +1,263 @@
+{% extends 'base.html' %}
+
+{% block title %}Analytics - ReviewAI{% endblock %}
+{% block page_title %}Analytics Dashboard{% endblock %}
+
+{% block content %}
+<!-- Date Selection Control -->
+<div class="d-flex align-items-center justify-content-between mb-4 bg-white border rounded p-3 shadow-sm">
+    <div class="fw-semibold text-dark">
+        <i class="fa-solid fa-chart-line me-2 text-primary"></i>Analytics Time Window:
+    </div>
+    <div class="btn-group shadow-sm">
+        <a href="?period=7d" class="btn btn-sm {% if period == '7d' %}btn-primary{% else %}btn-outline-secondary{% endif %} px-3">7 Days</a>
+        <a href="?period=30d" class="btn btn-sm {% if period == '30d' %}btn-primary{% else %}btn-outline-secondary{% endif %} px-3">30 Days</a>
+        <a href="?period=90d" class="btn btn-sm {% if period == '90d' %}btn-primary{% else %}btn-outline-secondary{% endif %} px-3">90 Days</a>
+        <a href="?period=all" class="btn btn-sm {% if period == 'all' %}btn-primary{% else %}btn-outline-secondary{% endif %} px-3">All Time</a>
+    </div>
+</div>
+
+<!-- Core Summary Cards -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card-saas h-100 mb-0 text-center">
+            <span class="small text-muted d-block mb-1">Reviews Received</span>
+            <h2 class="fw-bold mb-0 text-dark"><span class="counter-value" data-target="{{ total_reviews }}">0</span></h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-saas h-100 mb-0 text-center">
+            <span class="small text-muted d-block mb-1">Average Star Rating</span>
+            <h2 class="fw-bold mb-0 text-warning"><span class="counter-value" data-target="{{ avg_rating }}">0.0</span> <span class="fs-6 text-muted">/ 5</span></h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-saas h-100 mb-0 text-center">
+            <span class="small text-success d-block mb-1">Positive Reviews Share</span>
+            <h2 class="fw-bold mb-0 text-success"><span class="counter-value" data-target="{{ pos_pct }}">0</span>%</h2>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card-saas h-100 mb-0 text-center">
+            <span class="small text-danger d-block mb-1">Negative Reviews Share</span>
+            <h2 class="fw-bold mb-0 text-danger"><span class="counter-value" data-target="{{ neg_pct }}">0</span>%</h2>
+        </div>
+    </div>
+</div>
+
+<!-- Trend Timelines -->
+<div class="row mb-4">
+    <!-- Volume Trend Line -->
+    <div class="col-lg-8 mb-4 mb-lg-0">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark">Reviews Volume History</h5>
+            <div style="height: 250px;">
+                <canvas id="volumeTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Polarity Trend Line -->
+    <div class="col-lg-4">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark">Positive vs Negative Volume</h5>
+            <div style="height: 250px;">
+                <canvas id="polarityTrendChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Distribution & Channels -->
+<div class="row mb-4">
+    <!-- Rating Star Bar Graph -->
+    <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-4 text-dark">Rating Star Breakdown</h5>
+            <div class="d-flex flex-column justify-content-center h-75">
+                {% for stars, info in distribution.items %}
+                    <div class="distribution-row">
+                        <span class="distribution-label">{{ stars }} Stars</span>
+                        <div class="distribution-bar-wrapper">
+                            <div class="distribution-bar" style="width: {{ info.pct }}%; background-color: var(--accent-color) !important;"></div>
+                        </div>
+                        <span class="distribution-count">{{ info.count }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    <!-- Review Channels / Sources -->
+    <div class="col-lg-4 mb-4 mb-lg-0">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark">Review Channels</h5>
+            <p class="text-muted small mb-3">Breakdown of customer feedback submission pathways.</p>
+            {% if sources %}
+                <div class="list-group list-group-flush mt-2">
+                    {% for src in sources %}
+                        <div class="list-group-item d-flex align-items-center justify-content-between px-0 py-3 border-bottom">
+                            <span class="fw-semibold text-dark"><i class="fa-solid fa-circle-nodes text-muted me-2"></i>{{ src.source }}</span>
+                            <span class="badge bg-light text-secondary border rounded px-3 py-2">{{ src.count }} reviews</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center h-75 text-muted">
+                    No channel source data
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Topic Distribution -->
+    <div class="col-lg-4">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark">Key Review Topics</h5>
+            <p class="text-muted small mb-3">Leading concepts discussed by your customers.</p>
+            {% if top_topics %}
+                <div class="list-group list-group-flush mt-2">
+                    {% for topic in top_topics %}
+                        <div class="list-group-item d-flex align-items-center justify-content-between px-0 py-3 border-bottom">
+                            <span class="fw-semibold text-dark text-capitalize"><i class="fa-solid fa-tags text-muted me-2"></i>{{ topic.name }}</span>
+                            <span class="badge bg-light text-secondary border rounded px-3 py-2">{{ topic.count }} mentions</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center h-75 text-muted">
+                    No topic aggregates available yet
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Deep Insights & Praises lists -->
+<div class="row">
+    <!-- Praises -->
+    <div class="col-md-6 mb-4 mb-md-0">
+        <div class="card-saas h-100 border-success border-opacity-10 bg-success bg-opacity-5">
+            <h5 class="fw-bold mb-3 text-success"><i class="fa-solid fa-thumbs-up me-2"></i>Top Praised Aspects</h5>
+            <p class="text-muted small mb-4">Positive customer details praise frequently mentioned in reviews.</p>
+            
+            {% if top_praises %}
+                <div class="list-group list-group-flush">
+                    {% for item in top_praises %}
+                        <div class="list-group-item d-flex align-items-center justify-content-between px-0 py-3 border-bottom bg-transparent">
+                            <span class="fw-semibold text-dark"><i class="fa-solid fa-circle-check text-success me-2"></i>{{ item.name }}</span>
+                            <span class="badge bg-success bg-opacity-15 text-success rounded">{{ item.count }} mentions</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center py-5 text-muted">
+                    Not enough positive data analyzed
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Complaints -->
+    <div class="col-md-6">
+        <div class="card-saas h-100 border-danger border-opacity-10 bg-danger bg-opacity-5">
+            <h5 class="fw-bold mb-3 text-danger"><i class="fa-solid fa-thumbs-down me-2"></i>Top Complaint Issues</h5>
+            <p class="text-muted small mb-4">Operational flaws and complaints highlighted by AI review analysis.</p>
+            
+            {% if top_issues %}
+                <div class="list-group list-group-flush">
+                    {% for item in top_issues %}
+                        <div class="list-group-item d-flex align-items-center justify-content-between px-0 py-3 border-bottom bg-transparent">
+                            <span class="fw-semibold text-dark"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>{{ item.name }}</span>
+                            <span class="badge bg-danger bg-opacity-15 text-danger rounded">{{ item.count }} mentions</span>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="d-flex align-items-center justify-content-center py-5 text-muted">
+                    No negative concerns identified in this timeframe
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% if total_reviews > 0 %}
+<script>
+    // 1. Volume History Line Chart
+    const volCtx = document.getElementById('volumeTrendChart').getContext('2d');
+    new Chart(volCtx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [{
+                label: 'Total Reviews',
+                data: {{ total_volume_data|safe }},
+                borderColor: '#4f46e5',
+                backgroundColor: 'rgba(79, 70, 229, 0.05)',
+                borderWidth: 3,
+                fill: true,
+                tension: 0.3,
+                pointBackgroundColor: '#4f46e5'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // 2. Polarity Double Line Chart
+    const polarityCtx = document.getElementById('polarityTrendChart').getContext('2d');
+    new Chart(polarityCtx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels|safe }},
+            datasets: [
+                {
+                    label: 'Positive',
+                    data: {{ positive_volume_data|safe }},
+                    borderColor: '#10b981',
+                    borderWidth: 2,
+                    tension: 0.2,
+                    fill: false,
+                    pointBackgroundColor: '#10b981'
+                },
+                {
+                    label: 'Negative',
+                    data: {{ negative_volume_data|safe }},
+                    borderColor: '#ef4444',
+                    borderWidth: 2,
+                    tension: 0.2,
+                    fill: false,
+                    pointBackgroundColor: '#ef4444'
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: { boxWidth: 10, font: { family: 'Inter', size: 10 } }
+                }
+            },
+            scales: {
+                x: { grid: { display: false } },
+                y: { beginAtZero: true }
+            }
+        }
+    });
+</script>
+{% endif %}
+{% endblock %}

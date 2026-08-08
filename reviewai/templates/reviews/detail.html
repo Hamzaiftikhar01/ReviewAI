@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}Review Detail - ReviewAI{% endblock %}
+{% block page_title %}Review Detail{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'reviews_list' %}" class="text-decoration-none text-muted small">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Reviews
+    </a>
+</div>
+
+<div class="row">
+    <!-- Left Column: Customer Review Details -->
+    <div class="col-lg-7 mb-4">
+        <!-- Customer Review -->
+        <div class="card-saas mb-4">
+            <div class="d-flex align-items-center justify-content-between mb-3">
+                <div>
+                    <h4 class="fw-bold mb-1 text-dark">{{ review.customer_name }}</h4>
+                    {% if review.customer_email %}
+                        <span class="text-muted small"><i class="fa-regular fa-envelope me-1"></i>{{ review.customer_email }}</span>
+                    {% endif %}
+                </div>
+                <div class="text-end">
+                    <div class="star-rating fs-4">
+                        {% if review.rating == 5 %}⭐⭐⭐⭐⭐
+                        {% elif review.rating == 4 %}⭐⭐⭐⭐
+                        {% elif review.rating == 3 %}⭐⭐⭐
+                        {% elif review.rating == 2 %}⭐⭐
+                        {% else %}⭐
+                        {% endif %}
+                    </div>
+                    <span class="text-muted small">Source: <strong>{{ review.source }}</strong></span>
+                </div>
+            </div>
+            
+            <div class="border-top pt-3">
+                <h6 class="fw-semibold text-dark mb-2">Review Content:</h6>
+                <p class="text-secondary fs-5 lh-base italic mb-3" style="font-family: 'Outfit', sans-serif;">
+                    "{{ review.review_text }}"
+                </p>
+                <div class="text-muted small">
+                    Submitted on: {{ review.created_at|date:"F d, Y \a\t h:i A" }}
+                </div>
+            </div>
+        </div>
+        
+        <!-- AI Analysis Details -->
+        <div class="card-saas ai-accent-card">
+            <h5 class="fw-bold mb-4 text-purple" style="color: var(--accent-purple);">
+                <i class="fa-solid fa-brain me-2"></i>AI Analysis Report
+            </h5>
+            
+            {% if review.status == 'Analyzed' and analysis %}
+                <div class="row g-3 mb-4">
+                    <div class="col-6 col-md-4">
+                        <div class="small text-muted mb-1">Sentiment</div>
+                        <span class="badge-saas {% if analysis.sentiment == 'Positive' %}badge-positive{% elif analysis.sentiment == 'Negative' %}badge-negative{% else %}badge-neutral{% endif %} fs-6">
+                            {{ analysis.sentiment }}
+                        </span>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <div class="small text-muted mb-1">Confidence Score</div>
+                        <span class="fw-bold fs-5 text-dark">{% widthratio analysis.confidence 1 100 %}%</span>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="small text-muted mb-1">Status</div>
+                        <span class="text-success small fw-semibold"><i class="fa-solid fa-circle-check me-1"></i>Processed</span>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <h6 class="fw-bold text-dark mb-2">Review Summary:</h6>
+                    <p class="text-secondary small bg-light p-3 rounded border">{{ analysis.summary }}</p>
+                </div>
+                
+                <div class="row mb-3">
+                    <!-- Positive Highlights -->
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <h6 class="fw-bold text-success mb-2"><i class="fa-solid fa-face-smile me-2"></i>Positive Aspects</h6>
+                        {% if analysis.positive_aspects %}
+                            <ul class="list-unstyled ps-0 mb-0">
+                                {% for item in analysis.positive_aspects %}
+                                    <li class="small mb-2 text-dark"><i class="fa-solid fa-circle-check text-success me-2"></i>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span class="text-muted small">None identified</span>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- Complaints/Issues -->
+                    <div class="col-md-6">
+                        <h6 class="fw-bold text-danger mb-2"><i class="fa-solid fa-triangle-exclamation me-2"></i>Detected Complaints</h6>
+                        {% if analysis.issues %}
+                            <ul class="list-unstyled ps-0 mb-0">
+                                {% for item in analysis.issues %}
+                                    <li class="small mb-2 text-dark"><i class="fa-solid fa-circle-xmark text-danger me-2"></i>{{ item }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <span class="text-muted small">None identified</span>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="border-top pt-3">
+                    <h6 class="fw-bold text-dark mb-2">Key Topics:</h6>
+                    <div class="d-flex flex-wrap gap-2">
+                        {% for topic in analysis.topics %}
+                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">{{ topic }}</span>
+                        {% empty %}
+                            <span class="text-muted small">No topics tagged</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center py-4">
+                    <p class="text-muted small mb-3">This review has not been analyzed yet. Run AI sentiment analysis to parse complaints and highlights.</p>
+                    <form action="{% url 'review_analyze_ai' review.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-ai px-4 py-2">
+                            <i class="fa-solid fa-brain me-2"></i>Analyze with AI
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Right Column: AI Suggested Responses -->
+    <div class="col-lg-5 mb-4">
+        <div class="card-saas h-100">
+            <div class="d-flex align-items-center justify-content-between mb-4">
+                <h5 class="fw-bold mb-0 text-dark"><i class="fa-solid fa-reply-all me-2" style="color: var(--accent-color);"></i>AI Reply Generator</h5>
+                {% if ai_reply.is_saved %}
+                    <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-2 py-1"><i class="fa-solid fa-floppy-disk me-1"></i>Saved</span>
+                {% endif %}
+            </div>
+            
+            {% if ai_reply %}
+                <!-- Edit & Save Form -->
+                <form action="{% url 'review_save_reply' review.id %}" method="post" class="mb-4">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="reply_text" class="form-label small fw-semibold text-muted">Draft Response:</label>
+                        <textarea name="reply_text" id="reply_text" class="form-control" rows="8">{{ ai_reply.reply_text }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-sm px-4 fw-semibold w-100 mb-2" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+                        Use & Save Response
+                    </button>
+                </form>
+                
+                <!-- Regenerate Form -->
+                <div class="border-top pt-4">
+                    <h6 class="fw-bold text-dark mb-3">Regenerate Response</h6>
+                    <form action="{% url 'review_generate_reply_ai' review.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="tone_select" class="form-label small text-muted">Choose Tone Brand Settings:</label>
+                            <select name="tone" id="tone_select" class="form-select form-select-sm">
+                                {% for tone in tones %}
+                                    <option value="{{ tone }}" {% if request.user.business.tone == tone %}selected{% endif %}>{{ tone }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-outline-ai btn-sm w-100 fw-semibold">
+                            <i class="fa-solid fa-arrows-rotate me-2"></i>Regenerate Suggested Reply
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <!-- Create Reply Suggestion -->
+                <div class="text-center py-5">
+                    <i class="fa-solid fa-envelope-open-text fs-1 text-muted mb-3 d-block"></i>
+                    <p class="text-muted small mb-4 px-3">ReviewAI can automatically construct a polite, natural, and brand-safe reply based on complaints and praises identified.</p>
+                    
+                    <form action="{% url 'review_generate_reply_ai' review.id %}" method="post">
+                        {% csrf_token %}
+                        <div class="mb-3 px-4 text-start">
+                            <label for="tone_select_new" class="form-label small text-muted">Business Brand Tone:</label>
+                            <select name="tone" id="tone_select_new" class="form-select form-select-sm">
+                                {% for tone in tones %}
+                                    <option value="{{ tone }}" {% if request.user.business.tone == tone %}selected{% endif %}>{{ tone }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-ai px-4 py-2">
+                            <i class="fa-solid fa-wand-magic-sparkles me-2"></i>Generate Suggested Reply
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- Danger Zone -->
+<div class="card-saas border-danger border-opacity-25 bg-danger bg-opacity-10 mt-2 p-3">
+    <div class="d-flex align-items-center justify-content-between">
+        <div>
+            <h6 class="fw-bold text-danger mb-0">Danger Zone</h6>
+            <p class="small text-muted mb-0">Deleting this review will permanently clear all generated sentiment analyses and suggested replies.</p>
+        </div>
+        <div>
+            <form action="{% url 'review_delete' review.id %}" method="post" onsubmit="return confirm('Are you sure you want to permanently delete this review? This action cannot be undone.');">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm px-4 fw-semibold">
+                    Delete Review
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

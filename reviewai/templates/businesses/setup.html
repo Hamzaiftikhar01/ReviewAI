@@ -1,0 +1,77 @@
+{% extends 'auth_base.html' %}
+
+{% block title %}Setup Business - ReviewAI{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h3 class="fw-bold text-dark">Tell us about your business</h3>
+    <p class="text-muted">Set up your profile to customize AI reply suggestions.</p>
+</div>
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="id_name" class="form-label fw-semibold text-dark">Business Name</label>
+        {{ form.name }}
+        {% if form.name.errors %}
+            <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="id_category" class="form-label fw-semibold text-dark">Category</label>
+            {{ form.category }}
+            {% if form.category.errors %}
+                <div class="text-danger small mt-1">{{ form.category.errors.0 }}</div>
+            {% endif %}
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="id_tone" class="form-label fw-semibold text-dark">AI Response Tone</label>
+            {{ form.tone }}
+            {% if form.tone.errors %}
+                <div class="text-danger small mt-1">{{ form.tone.errors.0 }}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label for="id_location" class="form-label fw-semibold text-dark">Location / Address</label>
+        {{ form.location }}
+        {% if form.location.errors %}
+            <div class="text-danger small mt-1">{{ form.location.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_website" class="form-label fw-semibold text-dark">Website URL (Optional)</label>
+        {{ form.website }}
+        {% if form.website.errors %}
+            <div class="text-danger small mt-1">{{ form.website.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-3">
+        <label for="id_description" class="form-label fw-semibold text-dark">Business Description</label>
+        {{ form.description }}
+        {% if form.description.errors %}
+            <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+        {% endif %}
+    </div>
+
+    <div class="mb-4">
+        <label for="id_logo" class="form-label fw-semibold text-dark">Upload Logo (Optional)</label>
+        {{ form.logo }}
+        {% if form.logo.errors %}
+            <div class="text-danger small mt-1">{{ form.logo.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="d-grid">
+        <button type="submit" class="btn btn-primary py-2 fw-semibold" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+            Create Profile & Go to Dashboard
+        </button>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}Business Settings - ReviewAI{% endblock %}
+{% block page_title %}Business Settings{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card-saas">
+            <h5 class="fw-bold mb-4 text-dark"><i class="fa-solid fa-store me-2" style="color: var(--accent-color);"></i>Edit Business Details</h5>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_name" class="form-label fw-semibold">Business Name</label>
+                    {{ form.name }}
+                    {% if form.name.errors %}
+                        <div class="text-danger small mt-1">{{ form.name.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="id_category" class="form-label fw-semibold">Category</label>
+                        {{ form.category }}
+                        {% if form.category.errors %}
+                            <div class="text-danger small mt-1">{{ form.category.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="id_tone" class="form-label fw-semibold">AI Assistant Response Tone</label>
+                        {{ form.tone }}
+                        {% if form.tone.errors %}
+                            <div class="text-danger small mt-1">{{ form.tone.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_location" class="form-label fw-semibold">Location / Address</label>
+                    {{ form.location }}
+                    {% if form.location.errors %}
+                        <div class="text-danger small mt-1">{{ form.location.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_website" class="form-label fw-semibold">Website URL</label>
+                    {{ form.website }}
+                    {% if form.website.errors %}
+                        <div class="text-danger small mt-1">{{ form.website.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-3">
+                    <label for="id_description" class="form-label fw-semibold">Description</label>
+                    {{ form.description }}
+                    {% if form.description.errors %}
+                        <div class="text-danger small mt-1">{{ form.description.errors.0 }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <label for="id_logo" class="form-label fw-semibold">Business Logo</label>
+                    {{ form.logo }}
+                    {% if form.logo.errors %}
+                        <div class="text-danger small mt-1">{{ form.logo.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary px-4 fw-semibold" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+                    Save Business Changes
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="card-saas text-center">
+            <h5 class="fw-bold mb-3 text-dark">Profile Preview</h5>
+            
+            {% if business.logo %}
+                <img src="{{ business.logo.url }}" alt="{{ business.name }} Logo" class="img-fluid rounded border mb-3 shadow-sm" style="max-height: 120px; object-fit: contain;">
+            {% else %}
+                <div class="bg-light border rounded d-flex align-items-center justify-content-center mx-auto mb-3 shadow-sm" style="width: 120px; height: 120px;">
+                    <i class="fa-solid fa-store fs-1 text-muted"></i>
+                </div>
+            {% endif %}
+            
+            <h4 class="fw-bold mb-1 text-dark">{{ business.name }}</h4>
+            <span class="badge bg-secondary mb-3">{{ business.category }}</span>
+            
+            <div class="text-start border-top pt-3 mt-2">
+                <p class="mb-2"><strong class="text-dark">Location:</strong> <span class="text-muted">{{ business.location|default:"Not specified" }}</span></p>
+                <p class="mb-2"><strong class="text-dark">Website:</strong> 
+                    {% if business.website %}
+                        <a href="{{ business.website }}" target="_blank" class="text-decoration-none text-primary">{{ business.website }}</a>
+                    {% else %}
+                        <span class="text-muted">Not specified</span>
+                    {% endif %}
+                </p>
+                <p class="mb-2"><strong class="text-dark">AI Reply Tone:</strong> <span class="badge btn-ai">{{ business.tone }}</span></p>
+                <p class="mb-0"><strong class="text-dark">Registered:</strong> <span class="text-muted small">{{ business.created_at|date:"M d, Y" }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

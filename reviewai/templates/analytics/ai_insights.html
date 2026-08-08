@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Insights - ReviewAI{% endblock %}
+{% block page_title %}AI Business Insights{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div class="text-muted small">
+        Based on the latest <strong>{{ reviews_count }}</strong> reviews in your database.
+    </div>
+    
+    {% if not insufficient_data %}
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-ai btn-sm px-3 fw-semibold">
+                <i class="fa-solid fa-arrows-rotate me-2"></i>Regenerate Insights
+            </button>
+        </form>
+    {% endif %}
+</div>
+
+{% if insufficient_data %}
+    <div class="card-saas p-5 text-center text-muted">
+        <i class="fa-solid fa-wand-magic-sparkles fs-1 mb-3 text-warning"></i>
+        <h5>Not enough review data</h5>
+        <p class="small mb-0">ReviewAI needs at least <strong>3 reviews</strong> in your database to compile and analyze operational trends and compile recommendations.</p>
+        <div class="mt-4">
+            <a href="{% url 'review_create' %}" class="btn btn-outline-primary btn-sm px-3">Add Reviews Manually</a>
+            <a href="{% url 'csv_upload' %}" class="btn btn-primary btn-sm px-3" style="background-color: var(--accent-color); border-color: var(--accent-color);">Import CSV</a>
+        </div>
+    </div>
+{% else %}
+    <div class="row">
+        <!-- Main Analysis Content -->
+        <div class="col-lg-8">
+            <!-- Sentiment Summary -->
+            <div class="card-saas mb-4">
+                <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-comments-dollar me-2 text-primary"></i>Customer Sentiment Summary</h5>
+                <p class="text-secondary fs-5 lh-base mb-0" style="font-family: 'Outfit', sans-serif;">
+                    "{{ insights.overall_sentiment_summary }}"
+                </p>
+            </div>
+            
+            <!-- Recommendations -->
+            <div class="card-saas ai-accent-card mb-4">
+                <h5 class="fw-bold mb-3 text-purple" style="color: var(--accent-purple);"><i class="fa-solid fa-lightbulb me-2"></i>Actionable AI Recommendations</h5>
+                <p class="text-muted small mb-4">Operational changes suggested by AI review analysis to address recurring pain points and improve retention.</p>
+                
+                {% if insights.recommendations %}
+                    <div class="row g-3">
+                        {% for rec in insights.recommendations %}
+                            <div class="col-12">
+                                <div class="d-flex align-items-start gap-3 p-3 bg-light rounded border border-light">
+                                    <div class="bg-purple bg-opacity-10 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 36px; height: 36px; background-color: rgba(124, 58, 237, 0.1); color: var(--accent-purple);">
+                                        <strong>{{ forloop.counter }}</strong>
+                                    </div>
+                                    <div>
+                                        <p class="text-dark fw-semibold mb-1" style="font-size: 0.95rem;">Recommendation #{{ forloop.counter }}</p>
+                                        <p class="text-secondary small mb-0">{{ rec }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p class="text-muted small mb-0">No recommendations available.</p>
+                {% endif %}
+            </div>
+        </div>
+        
+        <!-- Right Sidebar: Highlights & Complaints -->
+        <div class="col-lg-4">
+            <!-- Biggest Complaints -->
+            <div class="card-saas mb-4 border-danger border-opacity-10 bg-danger bg-opacity-5">
+                <h5 class="fw-bold mb-3 text-danger"><i class="fa-solid fa-thumbs-down me-2"></i>Biggest Complaints</h5>
+                <p class="text-muted small mb-3">Top recurring bottlenecks identified in review analysis.</p>
+                
+                {% if insights.biggest_complaints %}
+                    <ul class="list-unstyled ps-0 mb-0">
+                        {% for complaint in insights.biggest_complaints %}
+                            <li class="p-2 bg-white rounded border border-danger border-opacity-10 mb-2 small text-dark d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+                                {{ complaint }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <span class="text-muted small">None identified</span>
+                {% endif %}
+            </div>
+            
+            <!-- Most Praised -->
+            <div class="card-saas mb-4 border-success border-opacity-10 bg-success bg-opacity-5">
+                <h5 class="fw-bold mb-3 text-success"><i class="fa-solid fa-thumbs-up me-2"></i>Most Praised Features</h5>
+                <p class="text-muted small mb-3">Themes that customers frequently applaud.</p>
+                
+                {% if insights.most_praised_features %}
+                    <ul class="list-unstyled ps-0 mb-0">
+                        {% for praise in insights.most_praised_features %}
+                            <li class="p-2 bg-white rounded border border-success border-opacity-10 mb-2 small text-dark d-flex align-items-center gap-2">
+                                <i class="fa-solid fa-circle-check text-success"></i>
+                                {{ praise }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <span class="text-muted small">None identified</span>
+                {% endif %}
+            </div>
+            
+            <!-- Emerging Issues -->
+            <div class="card-saas bg-white">
+                <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-arrow-trend-up me-2 text-warning"></i>Emerging Trends</h5>
+                <p class="text-secondary small mb-0">{{ insights.emerging_issues }}</p>
+            </div>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+
+{% block title %}Import Reviews - ReviewAI{% endblock %}
+{% block page_title %}Import Reviews via CSV{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{% url 'reviews_list' %}" class="text-decoration-none text-muted small">
+        <i class="fa-solid fa-arrow-left me-1"></i> Back to Reviews
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 mb-4">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-file-arrow-up me-2" style="color: var(--accent-color);"></i>Upload CSV File</h5>
+            <p class="text-muted small mb-4">Select a spreadsheet containing reviews formatted according to the template rules. We will parse and validate the file before importing it.</p>
+            
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-4">
+                    {{ form.csv_file.label_tag }}
+                    {{ form.csv_file }}
+                    {% if form.csv_file.errors %}
+                        <div class="text-danger small mt-1">{{ form.csv_file.errors.0 }}</div>
+                    {% endif %}
+                </div>
+                
+                <button type="submit" class="btn btn-primary px-4 fw-semibold w-100" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+                    Upload & Validate File
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <div class="col-lg-6 mb-4">
+        <div class="card-saas h-100">
+            <h5 class="fw-bold mb-3 text-dark"><i class="fa-solid fa-circle-info me-2" style="color: var(--accent-color);"></i>CSV Template Requirements</h5>
+            <p class="text-muted small">Your CSV must include the headers below (case-insensitive). Order does not matter.</p>
+            
+            <table class="table table-bordered table-sm small table-preview mb-3">
+                <thead>
+                    <tr>
+                        <th>Column Name</th>
+                        <th>Required?</th>
+                        <th>Details / Validation Rules</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>customer_name</code></td>
+                        <td><span class="text-danger fw-semibold">Yes</span></td>
+                        <td>First and last name of the reviewer.</td>
+                    </tr>
+                    <tr>
+                        <td><code>customer_email</code></td>
+                        <td>No</td>
+                        <td>Reviewer email address (optional).</td>
+                    </tr>
+                    <tr>
+                        <td><code>rating</code></td>
+                        <td><span class="text-danger fw-semibold">Yes</span></td>
+                        <td>Integer between <strong>1 and 5</strong>.</td>
+                    </tr>
+                    <tr>
+                        <td><code>review_text</code></td>
+                        <td><span class="text-danger fw-semibold">Yes</span></td>
+                        <td>Detailed review content.</td>
+                    </tr>
+                    <tr>
+                        <td><code>source</code></td>
+                        <td>No</td>
+                        <td>Source like "Google", "Facebook", "Yelp". Defaults to "CSV Import".</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="bg-light p-3 rounded border">
+                <div class="small fw-semibold text-dark mb-1">Example Template Row:</div>
+                <code class="small text-muted d-block" style="word-break: break-all;">
+                    customer_name,customer_email,rating,review_text,source<br>
+                    Ali Khan,ali@example.com,5,"Excellent food, very fast delivery!",Google<br>
+                    Sarah Smith,sara@example.com,2,"Food was cold and service was late.",Yelp
+                </code>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

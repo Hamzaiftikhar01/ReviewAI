@@ -1,0 +1,50 @@
+{% extends 'auth_base.html' %}
+
+{% block title %}Login - ReviewAI{% endblock %}
+
+{% block content %}
+<div class="text-center mb-4">
+    <h3 class="fw-bold text-dark">Welcome back</h3>
+    <p class="text-muted">Enter your email and password to log in.</p>
+</div>
+
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}info{% endif %} small py-2 px-3 mb-3" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
+
+<form method="post">
+    {% csrf_token %}
+    
+    <div class="mb-3">
+        <label for="id_email" class="form-label fw-semibold text-dark">Email Address</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="text-danger small mt-1">{{ form.email.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-1">
+            <label for="id_password" class="form-label fw-semibold text-dark mb-0">Password</label>
+        </div>
+        {{ form.password }}
+        {% if form.password.errors %}
+            <div class="text-danger small mt-1">{{ form.password.errors.0 }}</div>
+        {% endif %}
+    </div>
+    
+    <div class="d-grid mb-3">
+        <button type="submit" class="btn btn-primary py-2 fw-semibold" style="background-color: var(--accent-color); border-color: var(--accent-color);">
+            Sign In
+        </button>
+    </div>
+    
+    <p class="text-center text-muted small mb-0">
+        Don't have an account? <a href="{% url 'register' %}" class="fw-bold text-decoration-none" style="color: var(--accent-color);">Create Account</a>
+    </p>
+</form>
+{% endblock %}
