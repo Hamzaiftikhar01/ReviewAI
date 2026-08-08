@@ -584,6 +584,36 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     background-color: var(--background-color);
 }
 
+/* Ensure strong contrast for dark mode text elements */
+[data-theme="dark"] .text-dark {
+    color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .text-muted {
+    color: #9CA3AF !important;
+}
+
+[data-theme="dark"] .text-secondary {
+    color: #D1D5DB !important;
+}
+
+[data-theme="dark"] .trend-neutral span,
+[data-theme="dark"] .trend-indicator span {
+    color: #D1D5DB !important;
+}
+
+[data-theme="dark"] label {
+    color: #F9FAFB !important;
+}
+
+[data-theme="dark"] .card-title-saas {
+    color: #D1D5DB !important;
+}
+
+[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
+    color: #F9FAFB !important;
+}
+
 /* Forms styling for Dark Mode compatibility */
 [data-theme="dark"] .form-control,
 [data-theme="dark"] .form-select,
