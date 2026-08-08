@@ -95,14 +95,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 if ON_RENDER:
-    # Render persistent disk SQLite database path
-    DB_DIR = '/var/data'
-    if not os.path.exists(DB_DIR):
-        os.makedirs(DB_DIR, exist_ok=True)
+    # Render persistent disk SQLite database path. Render automatically creates this directory
+    # when the persistent disk is mounted at runtime.
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(DB_DIR, 'db.sqlite3'),
+            'NAME': '/var/data/db.sqlite3',
         }
     }
 else:
