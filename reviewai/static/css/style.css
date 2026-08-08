@@ -238,11 +238,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .sidebar-link:hover {
     color: var(--text-primary);
-    background-color: rgba(255, 255, 255, 0.04);
+    background-color: rgba(59, 130, 246, 0.08);
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
 }
 
 [data-theme="light"] .sidebar-link:hover {
-    background-color: rgba(15, 23, 42, 0.04);
+    background-color: rgba(37, 99, 235, 0.05);
+    box-shadow: none;
 }
 
 .sidebar-link.active {
@@ -302,8 +304,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .card-saas:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-4px);
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 16px rgba(59, 130, 246, 0.25);
 }
 
 .card-title-saas {
@@ -465,8 +468,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .review-item-row:hover {
-    border-color: var(--accent-primary);
-    box-shadow: var(--shadow-sm);
+    border-color: var(--accent-primary) !important;
+    box-shadow: 0 0 12px rgba(59, 130, 246, 0.15) !important;
 }
 
 .review-item-main {
@@ -646,4 +649,54 @@ h1, h2, h3, h4, h5, h6 {
         padding: 2rem 1.5rem !important;
         flex: 1;
     }
+}
+
+/* Ensure strong contrast for dark mode text elements (Default) */
+.text-dark,
+.text-body,
+.modal-title,
+.card-header,
+.table-preview td strong {
+    color: #F8FAFC !important;
+}
+
+.text-muted {
+    color: #94A3B8 !important;
+}
+
+.text-secondary {
+    color: #CBD5E1 !important;
+}
+
+label {
+    color: #F8FAFC !important;
+}
+
+.nav-section-title {
+    color: #64748B !important;
+}
+
+/* Light mode text colors overrides to restore default contrast levels */
+[data-theme="light"] .text-dark,
+[data-theme="light"] .text-body,
+[data-theme="light"] .modal-title,
+[data-theme="light"] .card-header,
+[data-theme="light"] .table-preview td strong {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .text-muted {
+    color: #64748B !important;
+}
+
+[data-theme="light"] .text-secondary {
+    color: #475569 !important;
+}
+
+[data-theme="light"] label {
+    color: #0F172A !important;
+}
+
+[data-theme="light"] .nav-section-title {
+    color: #94A3B8 !important;
 }
