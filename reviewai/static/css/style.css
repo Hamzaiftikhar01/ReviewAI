@@ -2,31 +2,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap');
 
 :root {
-    --primary-color: #6E3AFF;       /* HEX: #6E3AFF - Vibrant Purple */
-    --primary-light: #8B5CF6;       /* Vibrant violet secondary */
-    --accent-color: #6E3AFF;        /* Purple Accent */
-    --accent-purple: #BE185D;       /* Pink/Magenta Strategic Accent */
-    --background-color: #F3F2F8;    /* Saturated Light Purple-Gray Background */
-    --card-background: #ffffff;     /* White Cards */
-    --text-primary: #1F2937;        /* Dark Slate Text */
-    --text-secondary: #4B5563;      /* Saturated slate gray text */
-    --color-success: #10B981;       /* Green */
-    --color-danger: #EF4444;        /* Red */
+    --primary-color: #00D2FF;       /* Bright Neon Blue */
+    --primary-light: #00FF87;       /* Bright Neon Green */
+    --accent-color: #00D2FF;        /* Neon Blue Accent */
+    --accent-purple: #00FF87;       /* Neon Green Accent */
+    --background-color: #0B0E14;    /* Deep dark navy/charcoal background */
+    --card-background: #161B26;     /* Slate dark blue container */
+    --text-primary: #F9FAFB;        /* High-contrast text */
+    --text-secondary: #9CA3AF;      /* Muted gray text */
+    --color-success: #10B981;       /* Green - Positive */
+    --color-danger: #EF4444;        /* Red - Negative */
     --color-warning: #f59e0b;       /* Yellow - Rating star */
     --color-neutral: #9CA3AF;       /* Gray - Neutral */
-    --border-color: rgba(110, 58, 255, 0.1); /* Subtle purple border */
+    --border-color: rgba(0, 210, 255, 0.15); /* Glowing blue border tint */
     --sidebar-width: 260px;
     --transition-speed: 0.25s;
-    --shadow-sm: 0 1px 3px rgba(110, 58, 255, 0.04);
-    --shadow-md: 0 10px 20px -8px rgba(110, 58, 255, 0.08), 0 4px 10px -3px rgba(110, 58, 255, 0.04);
-    --shadow-lg: 0 20px 25px -5px rgba(110, 58, 255, 0.1), 0 10px 10px -5px rgba(110, 58, 255, 0.04);
     
     /* Theme Variables */
-    --sidebar-background: #0F0926;  /* Premium dark space purple */
-    --sidebar-text: #A5A2B8;        /* Soft readable sidebar text */
-    --header-background: #FFFFFF;
-    --input-background: #FFFFFF;
-    --input-border: rgba(110, 58, 255, 0.15);
+    --sidebar-background: #0B0E14;  /* Deep dark navy sidebar */
+    --sidebar-text: #9CA3AF;
+    --header-background: #161B26;
+    --input-background: #161B26;
+    --input-border: rgba(0, 210, 255, 0.25);
+    
+    /* Glowing Neon Shadows (Blue + Green mix) */
+    --shadow-sm: 0 1px 3px rgba(0, 210, 255, 0.05);
+    --shadow-md: 0 10px 20px -8px rgba(0, 210, 255, 0.1), 0 4px 10px -3px rgba(0, 255, 135, 0.04);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 210, 255, 0.12), 0 10px 10px -5px rgba(0, 255, 135, 0.05);
 }
 
 body {
@@ -38,7 +40,7 @@ body {
 
 h1, h2, h3, h4, h5, h6, .brand-logo {
     font-family: 'Outfit', sans-serif;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     font-weight: 600;
 }
 
@@ -249,9 +251,9 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .sidebar-link.active {
-    color: #ffffff;
+    color: #0B0E14 !important;
     background-color: var(--primary-color);
-    box-shadow: 0 4px 12px rgba(110, 58, 255, 0.35);
+    box-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
 }
 
 .sidebar-footer {
@@ -397,10 +399,10 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 
 /* AI accents */
 .ai-accent-card {
-    background: linear-gradient(135deg, #3B0764, #5B21B6, #BE185D) !important;
+    background: linear-gradient(135deg, #161B26, #0F0926) !important;
     color: #ffffff !important;
-    border: none !important;
-    box-shadow: 0 10px 25px -5px rgba(91, 33, 182, 0.25);
+    border: 1px solid rgba(0, 210, 255, 0.3) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 210, 255, 0.15);
 }
 
 .ai-accent-card .card-title-saas,
@@ -424,8 +426,8 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .btn-ai {
-    background: linear-gradient(135deg, var(--primary-color), var(--accent-purple));
-    color: white !important;
+    background: linear-gradient(135deg, var(--primary-color), var(--accent-purple)) !important;
+    color: #0B0E14 !important; /* Dark text for readability on neon gradient */
     border: none;
     font-weight: 600;
     transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, opacity 0.2s ease;
@@ -434,7 +436,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 .btn-ai:hover {
     opacity: 0.95;
     transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(190, 24, 93, 0.3);
+    box-shadow: 0 0 20px rgba(0, 210, 255, 0.45);
 }
 
 .btn-ai:active {
@@ -442,9 +444,9 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 .btn-outline-ai {
-    border: 1px solid var(--primary-color);
-    color: var(--primary-color);
-    background-color: transparent;
+    border: 1px solid var(--primary-color) !important;
+    color: var(--primary-color) !important;
+    background-color: transparent !important;
     font-weight: 600;
     transition: all 0.2s ease;
 }
@@ -616,177 +618,121 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 }
 
 /* ==========================================================================
-   Dark Mode Overrides
+   Global Theme Helper Overrides
    ========================================================================== */
-[data-theme="dark"] {
-    --primary-color: #00D2FF;       /* Bright Neon Blue */
-    --primary-light: #00FF87;       /* Bright Neon Green */
-    --accent-color: #00D2FF;        /* Neon Blue Accent */
-    --accent-purple: #00FF87;       /* Neon Green Accent */
-    --background-color: #0B0E14;    /* Deep dark navy/charcoal */
-    --card-background: #161B26;     /* Slate dark blue container */
-    --text-primary: #F9FAFB;        /* High-contrast text */
-    --text-secondary: #9CA3AF;      /* Muted gray text */
-    --border-color: rgba(0, 210, 255, 0.15); /* Glowing blue border tint */
-    --sidebar-background: #0B0E14;  /* Deep dark navy sidebar */
-    --sidebar-text: #9CA3AF;
-    --header-background: #161B26;
-    --input-background: #161B26;
-    --input-border: rgba(0, 210, 255, 0.25);
-    
-    /* Glowing Neon Shadows (Blue + Green mix) */
-    --shadow-sm: 0 1px 3px rgba(0, 210, 255, 0.05);
-    --shadow-md: 0 10px 20px -8px rgba(0, 210, 255, 0.1), 0 4px 10px -3px rgba(0, 255, 135, 0.04);
-    --shadow-lg: 0 20px 25px -5px rgba(0, 210, 255, 0.12), 0 10px 10px -5px rgba(0, 255, 135, 0.05);
-}
-
-/* Glowing shadows and colors for active items and buttons in dark neon mode */
-[data-theme="dark"] .sidebar-link.active {
-    background-color: var(--primary-color) !important;
-    color: #0B0E14 !important; /* Dark text for high-contrast on neon cyan active state */
-    box-shadow: 0 0 16px rgba(0, 210, 255, 0.4);
-}
-
-[data-theme="dark"] .btn-ai {
-    background: linear-gradient(135deg, #00D2FF, #00FF87) !important;
-    color: #0B0E14 !important; /* Dark text for readability on neon gradient */
-    box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
-}
-
-[data-theme="dark"] .btn-ai:hover {
-    opacity: 0.95;
-    transform: translateY(-2px);
-    box-shadow: 0 0 24px rgba(0, 210, 255, 0.45);
-}
-
-[data-theme="dark"] body {
-    color: var(--text-primary);
-    background-color: var(--background-color);
-}
-
-/* Ensure strong contrast for dark mode text elements */
-[data-theme="dark"] .text-dark {
+.text-dark {
     color: #F9FAFB !important;
 }
 
-[data-theme="dark"] .text-muted {
+.text-muted {
     color: #9CA3AF !important;
 }
 
-[data-theme="dark"] .text-secondary {
+.text-secondary {
     color: #D1D5DB !important;
 }
 
-[data-theme="dark"] .trend-neutral span,
-[data-theme="dark"] .trend-indicator span {
+.trend-neutral span,
+.trend-indicator span {
     color: #D1D5DB !important;
 }
 
-[data-theme="dark"] label {
+label {
     color: #F9FAFB !important;
 }
 
-[data-theme="dark"] .card-title-saas {
+.card-title-saas {
     color: #D1D5DB !important;
-}
-
-[data-theme="dark"] h1, [data-theme="dark"] h2, [data-theme="dark"] h3, [data-theme="dark"] h4, [data-theme="dark"] h5, [data-theme="dark"] h6 {
-    color: #F9FAFB !important;
 }
 
 /* Forms styling for Dark Mode compatibility */
-[data-theme="dark"] .form-control,
-[data-theme="dark"] .form-select,
-[data-theme="dark"] .form-control:focus,
-[data-theme="dark"] .form-select:focus {
+.form-control,
+.form-select,
+.form-control:focus,
+.form-select:focus {
     background-color: var(--input-background) !important;
     color: var(--text-primary) !important;
     border-color: var(--input-border) !important;
 }
 
-[data-theme="dark"] .form-control::placeholder {
+.form-control::placeholder {
     color: #6B7280;
 }
 
-/* Light/Dark mode transitions */
-body, .sidebar, .app-header, .card-saas, .review-item-row, .app-body {
-    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-}
-
 /* Glassmorphism adjustment for Dark Mode */
-[data-theme="dark"] .card-saas {
-    background: rgba(17, 24, 39, 0.7);
-    border: 1px solid rgba(75, 85, 99, 0.3);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.15);
+.card-saas {
+    background: rgba(22, 27, 38, 0.85) !important;
+    border: 1px solid var(--border-color) !important;
+    box-shadow: var(--shadow-sm) !important;
 }
 
-[data-theme="dark"] .card-saas:hover {
-    border-color: rgba(167, 139, 250, 0.3);
-    box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.3);
+.card-saas:hover {
+    border-color: rgba(0, 210, 255, 0.35) !important;
+    box-shadow: var(--shadow-md) !important;
 }
 
-[data-theme="dark"] .review-item-row {
-    background-color: #111827;
-    border-color: rgba(75, 85, 99, 0.3);
+.review-item-row {
+    background-color: var(--card-background) !important;
+    border-color: var(--border-color) !important;
 }
 
-[data-theme="dark"] .review-item-row:hover {
-    border-color: rgba(167, 139, 250, 0.3);
+.review-item-row:hover {
+    border-color: rgba(0, 210, 255, 0.35) !important;
 }
 
-[data-theme="dark"] .table-preview th {
-    background-color: #1F2937;
-    color: var(--text-primary);
+.table-preview th {
+    background-color: #1F2937 !important;
+    color: var(--text-primary) !important;
 }
 
-[data-theme="dark"] .table-preview td {
-    color: var(--text-secondary);
+.table-preview td {
+    color: var(--text-secondary) !important;
 }
 
-[data-theme="dark"] .list-group-item {
-    background-color: #111827 !important;
-    color: var(--text-primary);
-    border-color: rgba(75, 85, 99, 0.3);
+.list-group-item {
+    background-color: var(--card-background) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
 }
 
-[data-theme="dark"] .list-group-item.bg-light {
+.list-group-item.bg-light {
     background-color: #1F2937 !important;
 }
 
-[data-theme="dark"] .dropdown-menu {
-    background-color: #111827 !important;
-    border: 1px solid rgba(75, 85, 99, 0.4) !important;
+.dropdown-menu {
+    background-color: var(--card-background) !important;
+    border: 1px solid var(--border-color) !important;
 }
 
-[data-theme="dark"] .dropdown-menu .dropdown-item {
-    color: var(--text-primary);
+.dropdown-menu .dropdown-item {
+    color: var(--text-primary) !important;
 }
 
-[data-theme="dark"] .dropdown-menu .dropdown-item:hover {
-    background-color: #1F2937;
-}
-
-[data-theme="dark"] .dropdown-menu .bg-light {
+.dropdown-menu .dropdown-item:hover {
     background-color: #1F2937 !important;
 }
 
-[data-theme="dark"] .dropdown-menu .text-dark {
+.dropdown-menu .bg-light {
+    background-color: #1F2937 !important;
+}
+
+.dropdown-menu .text-dark {
     color: var(--text-primary) !important;
 }
 
 /* Modals dark mode overrides */
-[data-theme="dark"] .modal-content {
-    background-color: #111827;
-    color: var(--text-primary);
-    border: 1px solid rgba(75, 85, 99, 0.4);
+.modal-content {
+    background-color: #161B26 !important;
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-color) !important;
 }
 
-[data-theme="dark"] .modal-header,
-[data-theme="dark"] .modal-footer {
-    border-color: rgba(75, 85, 99, 0.3);
+.modal-header,
+.modal-footer {
+    border-color: var(--border-color) !important;
 }
 
-[data-theme="dark"] .btn-close {
-    filter: invert(1) grayscale(1) brightness(2);
+.btn-close {
+    filter: invert(1) grayscale(1) brightness(2) !important;
 }
 
