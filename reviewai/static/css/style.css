@@ -563,9 +563,9 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
    Dark Mode Overrides
    ========================================================================== */
 [data-theme="dark"] {
-    --primary-color: #C084FC;       /* Brighter purple in dark mode */
-    --primary-light: #A78BFA;
-    --accent-color: #A78BFA;
+    --primary-color: #703EFA;       /* Rich vibrant purple for dark mode instead of faded lavender */
+    --primary-light: #8B5CF6;
+    --accent-color: #703EFA;
     --accent-purple: #F43F5E;       /* Pink/Magenta Accent */
     --background-color: #090D16;    /* Deep space dark background */
     --card-background: #111827;     /* Slate-900 Card */
@@ -577,6 +577,15 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     --header-background: #111827;
     --input-background: #1F2937;
     --input-border: #4B5563;
+}
+
+/* Subtle glowing shadows for active items and buttons in dark mode */
+[data-theme="dark"] .sidebar-link.active {
+    box-shadow: 0 0 12px rgba(110, 58, 255, 0.25);
+}
+
+[data-theme="dark"] .btn-ai {
+    box-shadow: 0 0 16px rgba(110, 58, 255, 0.3);
 }
 
 [data-theme="dark"] body {
