@@ -193,14 +193,38 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid var(--border-color);
 }
 
-.brand-logo {
-    color: var(--text-primary) !important;
+.brand-logo,
+.auth-form-card h3,
+.app-header h4 {
     font-size: 1.4rem;
     font-weight: 800;
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-form-card h3 {
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+    display: block;
+    text-align: center;
+}
+
+.app-header h4 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    display: block;
+}
+
+.brand-logo i,
+.app-header i,
+.auth-form-card h3 i {
+    -webkit-text-fill-color: initial;
+    color: var(--accent-primary) !important;
 }
 
 .brand-logo .ai-badge {
@@ -211,6 +235,7 @@ h1, h2, h3, h4, h5, h6 {
     border-radius: 4px;
     font-weight: 700;
     text-transform: uppercase;
+    -webkit-text-fill-color: initial;
 }
 
 .sidebar-nav {
