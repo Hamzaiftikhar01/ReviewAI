@@ -17,42 +17,63 @@
 <div class="container-fluid p-0">
     <div class="row g-0 auth-container">
         <!-- Left Side: Branding -->
+        <!-- Left Side: Branding -->
         <div class="col-lg-5 auth-sidebar d-flex flex-column justify-content-between">
-            <div class="auth-branding">
-                <a href="/" class="brand-logo mb-4 text-white">
-                    <i class="fa-solid fa-robot text-white fs-3"></i>
-                    ReviewAI
-                </a>
-                <h2 class="text-white fw-bold mb-3">Turn Customer Feedback into Business Growth.</h2>
-                <p class="text-light opacity-75">ReviewAI is an AI-powered customer review intelligence platform that transforms raw feedback into actionable business intelligence, drafts response suggestions, and identifies operational bottlenecks.</p>
-            </div>
+            <!-- Background Orbs -->
+            <div class="glow-orb glow-orb-1"></div>
+            <div class="glow-orb glow-orb-2"></div>
             
-            <div class="auth-benefits mt-5 d-none d-lg-block">
-                <div class="d-flex align-items-start gap-3 mb-3">
-                    <div class="bg-primary bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="fa-solid fa-brain text-info"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-white mb-1">AI Sentiment Analysis</h6>
-                        <p class="small text-light opacity-50 mb-0">Instantly categorize reviews by polarity, confidence, and topics.</p>
+            <div class="auth-content d-flex flex-column justify-content-between h-100" style="position: relative; z-index: 2;">
+                <div class="auth-branding">
+                    <a href="/" class="brand-logo mb-4 text-white">
+                        <i class="fa-solid fa-robot text-white fs-3"></i>
+                        ReviewAI
+                    </a>
+                    <h2 class="text-white fw-bold mb-3">Turn Customer Feedback into Business Growth.</h2>
+                    <p class="text-light opacity-75 small mb-0">ReviewAI is an AI-powered review intelligence SaaS that parses ratings, extracts actionable recommendations, and writes response drafts tailored to your business tone.</p>
+                    
+                    <!-- Floating Glass AI Reply Mockup Widget -->
+                    <div class="glass-widget mt-4 p-3 rounded-3 shadow-lg border border-white border-opacity-10" style="background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <span class="badge rounded-pill bg-success bg-opacity-25 text-success border border-success border-opacity-25 py-1 px-2" style="font-size: 0.72rem; color: #10B981 !important;">
+                                <i class="fa-solid fa-circle-check me-1"></i> Positive Sentiment
+                            </span>
+                            <span class="small text-white opacity-50" style="font-size: 0.65rem;">Confidence: 97%</span>
+                        </div>
+                        <p class="text-white small mb-3 fst-italic" style="font-size: 0.8rem; line-height: 1.4;">"ReviewAI helped us track our customer complaints and save hours responding to feedback. Extremely accurate insights!"</p>
+                        
+                        <div class="reply-container p-2.5 rounded-2" style="background: rgba(255, 255, 255, 0.05); border-left: 3px solid #BE185D;">
+                            <div class="d-flex align-items-center justify-content-between mb-1.5">
+                                <span class="small text-white fw-semibold" style="font-size: 0.72rem; color: #E9D5FF !important;"><i class="fa-solid fa-wand-magic-sparkles me-1 text-pink"></i> Suggested AI Reply:</span>
+                                <span class="small text-white opacity-40" style="font-size: 0.62rem;">Tone: Professional</span>
+                            </div>
+                            <p class="small text-white opacity-80 mb-0" style="font-size: 0.72rem; line-height: 1.4;">"Thank you for sharing your experience! We're thrilled that ReviewAI is successfully saving you time and delivering value."</p>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-start gap-3 mb-3">
-                    <div class="bg-primary bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="fa-solid fa-reply text-info"></i>
+                
+                <div class="auth-benefits mt-4 d-none d-lg-block">
+                    <h6 class="text-white opacity-40 mb-3 small text-uppercase fw-bold tracking-wider" style="font-size: 0.7rem;">Product Features</h6>
+                    
+                    <div class="d-flex align-items-center gap-3 mb-2.5 p-2 rounded-2" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white" style="width: 32px; height: 32px; min-width: 32px;">
+                            <i class="fa-solid fa-brain fs-6 text-pink"></i>
+                        </div>
+                        <span class="small text-white opacity-90 fw-medium" style="font-size: 0.82rem;">Real-time Sentiment Analysis</span>
                     </div>
-                    <div>
-                        <h6 class="text-white mb-1">Instant Suggested Responses</h6>
-                        <p class="small text-light opacity-50 mb-0">Generate polite, contextual suggested replies tailored to your business tone.</p>
+                    
+                    <div class="d-flex align-items-center gap-3 mb-2.5 p-2 rounded-2" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white" style="width: 32px; height: 32px; min-width: 32px;">
+                            <i class="fa-solid fa-reply fs-6 text-pink"></i>
+                        </div>
+                        <span class="small text-white opacity-90 fw-medium" style="font-size: 0.82rem;">Tone-Customized AI Draft Suggestion</span>
                     </div>
-                </div>
-                <div class="d-flex align-items-start gap-3">
-                    <div class="bg-primary bg-opacity-25 rounded-circle p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-                        <i class="fa-solid fa-lightbulb text-info"></i>
-                    </div>
-                    <div>
-                        <h6 class="text-white mb-1">Actionable Business Insights</h6>
-                        <p class="small text-light opacity-50 mb-0">Uncover emerging complaints and praised aspects automatically.</p>
+                    
+                    <div class="d-flex align-items-center gap-3 p-2 rounded-2" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.05);">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center bg-white bg-opacity-10 text-white" style="width: 32px; height: 32px; min-width: 32px;">
+                            <i class="fa-solid fa-chart-simple fs-6 text-pink"></i>
+                        </div>
+                        <span class="small text-white opacity-90 fw-medium" style="font-size: 0.82rem;">Dynamic SaaS Analytics Reports</span>
                     </div>
                 </div>
             </div>

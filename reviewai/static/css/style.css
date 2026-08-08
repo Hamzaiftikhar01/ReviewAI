@@ -60,6 +60,41 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     overflow: hidden;
 }
 
+.glow-orb {
+    position: absolute;
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.35;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.glow-orb-1 {
+    background-color: #BE185D; /* Magenta glow */
+    top: 10%;
+    left: -10%;
+    animation: floatOrb1 18s ease-in-out infinite alternate;
+}
+
+.glow-orb-2 {
+    background-color: #06B6D4; /* Cyan/Teal glow */
+    bottom: 10%;
+    right: -10%;
+    animation: floatOrb2 22s ease-in-out infinite alternate;
+}
+
+@keyframes floatOrb1 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(40px, 30px) scale(1.15); }
+}
+
+@keyframes floatOrb2 {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-30px, -40px) scale(0.9); }
+}
+
 @keyframes gradientBG {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -68,6 +103,8 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
 
 .auth-sidebar .brand-logo {
     color: #ffffff !important;
+    position: relative;
+    z-index: 2;
 }
 
 .auth-sidebar::before {
@@ -79,6 +116,7 @@ h1, h2, h3, h4, h5, h6, .brand-logo {
     height: 200%;
     background: radial-gradient(circle, rgba(139,92,246,0.15) 0%, rgba(91,33,182,0) 70%);
     pointer-events: none;
+    z-index: 1;
 }
 
 .auth-sidebar-dots {
